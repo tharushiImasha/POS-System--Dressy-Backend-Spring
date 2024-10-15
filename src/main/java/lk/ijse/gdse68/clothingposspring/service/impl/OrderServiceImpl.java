@@ -35,9 +35,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void saveOrder(OrdersDTO ordersDTO) {
-        System.out.println(ordersDTO);
 
-        ordersDTO.setOrder_id(AppUtil.createOrderId()); // Ensure this is setting a valid order ID
+//        ordersDTO.setOrder_id(AppUtil.createOrderId()); // Ensure this is setting a valid order ID
 
         var order = mapping.convertToOrderEntity(ordersDTO);
         var savedOrder = orderDAO.save(order); // Saving the order first

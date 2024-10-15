@@ -28,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void saveItem(ItemDTO itemDTO) {
-        itemDTO.setCostume_id(AppUtil.createItemId());
+//        itemDTO.setCostume_id(AppUtil.createItemId());
         var item = mapping.convertToItemEntity(itemDTO);
         var savedItem = itemDAO.save(item);
 

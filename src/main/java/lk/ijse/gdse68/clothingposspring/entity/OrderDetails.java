@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 public class OrderDetails {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String order_detail_id;
 
     @ManyToOne

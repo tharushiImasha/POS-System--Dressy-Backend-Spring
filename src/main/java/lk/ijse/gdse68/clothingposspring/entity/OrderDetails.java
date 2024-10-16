@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.clothingposspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,11 +14,11 @@ import lombok.NoArgsConstructor;
 
 public class OrderDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String order_detail_id;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonBackReference
     private Orders orders;
 
     @ManyToOne

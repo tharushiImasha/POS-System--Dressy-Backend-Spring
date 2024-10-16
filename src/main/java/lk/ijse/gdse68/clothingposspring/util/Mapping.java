@@ -1,6 +1,8 @@
 package lk.ijse.gdse68.clothingposspring.util;
 
 import lk.ijse.gdse68.clothingposspring.dao.CustomerDAO;
+import lk.ijse.gdse68.clothingposspring.dao.ItemDAO;
+import lk.ijse.gdse68.clothingposspring.dao.OrderDAO;
 import lk.ijse.gdse68.clothingposspring.dto.CustomerDTO;
 import lk.ijse.gdse68.clothingposspring.dto.ItemDTO;
 import lk.ijse.gdse68.clothingposspring.dto.OrderDetailsDTO;
@@ -24,6 +26,10 @@ public class Mapping {
     private ModelMapper modelMapper;
     @Autowired
     private CustomerDAO customerDAO;
+    @Autowired
+    private OrderDAO orderDAO;
+    @Autowired
+    private ItemDAO itemDAO;
 
     public CustomerDTO convertToDTO(Customer customer) {
         return modelMapper.map(customer, CustomerDTO.class);
@@ -56,40 +62,33 @@ public class Mapping {
 
         if (customerOptional.isPresent()) {
             Orders orders = modelMapper.map(ordersDTO, Orders.class);
-            orders.setCustomer(customerOptional.get()); // Set the Customer object
+            orders.setCustomer(customerOptional.get());
             return orders;
         } else {
-            // Handle the case where the customer is not found
             throw new IllegalArgumentException("Customer with ID " + cusId + " not found.");
         }
     }
 
-
     public List<OrdersDTO> convertToOrderDTOList(List<Orders> ordersList) {
-        // Iterate over the list of Orders entities and convert each to an OrdersDTO
         return ordersList.stream()
-                .map(this::convertToOrderDTO) // Use the method to convert each Orders entity
+                .map(this::convertToOrderDTO)
                 .collect(Collectors.toList());
     }
 
     public OrdersDTO convertToOrderDTO(Orders orders) {
-//        return modelMapper.map(orders, new TypeToken<List<OrdersDTO>>() {}.getType());
         OrdersDTO ordersDTO = new OrdersDTO();
 
-        // Map simple fields
         ordersDTO.setOrder_id(orders.getOrder_id());
         ordersDTO.setTotal(orders.getTotal());
         ordersDTO.setDate(orders.getDate());
 
-        // Map the Customer ID from the Customer entity
         if (orders.getCustomer() != null) {
-            ordersDTO.setCus_id(orders.getCustomer().getCus_id()); // Assuming `cus_id` exists in Customer entity
+            ordersDTO.setCus_id(orders.getCustomer().getCus_id());
         }
 
-        // Map the OrderDetails list
         List<OrderDetailsDTO> orderDetailsDTOList = orders.getOrderDetails()
                 .stream()
-                .map(this::convertToOrderDetailsDTO) // Convert each OrderDetails entity to DTO
+                .map(this::convertToOrderDetailsDTO)
                 .collect(Collectors.toList());
         ordersDTO.setOrder_details(orderDetailsDTOList);
 

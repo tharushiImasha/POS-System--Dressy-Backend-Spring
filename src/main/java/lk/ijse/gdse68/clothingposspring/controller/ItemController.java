@@ -99,7 +99,7 @@ public class ItemController {
 
             itemService.updateItem(itemDTO);
             logger.info("Item updated successfully: {}", itemDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         } catch (DataPersistFailedException e) {
             logger.error("Data persist failed for item with ID: {}", id, e);
